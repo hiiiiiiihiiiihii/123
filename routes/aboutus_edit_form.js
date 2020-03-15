@@ -1,0 +1,26 @@
+var express = require('express');
+var router = express.Router();
+
+//增加引用函式
+const aboutus = require('./utility/aboutus');
+
+//接收GET請求
+router.get('/', function(req, res, next) {
+    var no = req.query.about;
+
+    aboutus.query(no).then(d => {
+        if (d!=null && d!=-1){
+            var data = {
+                about: d.about,
+                answer: d.answer
+                }
+
+            res.render('aboutus_edit_form', {item:data});  //將資料傳給更新頁面
+        }else{
+            res.render('notFound');  //導向找不到頁面
+        }  
+    })
+});
+
+//匯出
+module.exports = router;
